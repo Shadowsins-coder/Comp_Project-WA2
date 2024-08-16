@@ -1,0 +1,129 @@
+<!-- Main page after user signs in  -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "utf-8">
+  <title>Computing</title>
+  <link rel='stylesheet' href = " {{url_for('static', filename = 'style.css') }}">
+  <style>
+      .hidden { display: none; }
+  </style>
+</head>
+
+<body>
+  <button class="menu-button" onclick="toggleMenu()">Menu</button>
+
+  <!-- Navigation Menu -->
+  <nav id="navMenu">
+      <ul>
+          <li><a href="https://www.example.com/practice" target="_blank">Practice Code</a></li>
+          <li><a href="/recent-searches">Recent Searches</a></li>
+      </ul>
+  </nav>
+
+  <br>
+  <h1> Computing Definiton & Application </h1>
+
+  <form action="/search" method="POST">
+    <label for "programSelect">Enter Programming Language:</label>
+    <select id="programSelect" name = "programSelect" list= "suggestions" placeholder="HTML, Python, Javascript....">
+      <option value="HTML" {% if program == 'HTML' %}selected{% endif %}>HTML</option>
+      <option value="CSS" {% if program == 'CSS' %}selected{% endif %}>CSS</option>
+      <option value="Python" {% if program == 'Python' %}selected{% endif %}>Python</option>
+      <option value="Javascript" {% if program == 'Javascript' %}selected{% endif %}>Javascript</option>
+      <option value="Flask" {% if program == 'Flask' %}selected{% endif %}>Flask</option>
+      <option value="SQL" {% if program == 'SQL' %}selected{% endif %}>SQL</option>
+      <option value="Data" {% if program == 'Data' %}selected{% endif %}>Other Theory</option>
+    </select>
+    <br><br>
+    <label for "search">Enter Search Query:</label>
+    <input type="text" id="search" name = "search" placeholder="Definition/Give E.g. of ?">
+    <br><br>
+    <input type ="submit" value="Search">
+
+  </form>
+  <hr>
+  {% if data %}
+    <div>
+        <button onclick="showAllResults()">Show All Results</button>
+        <button onclick="hideAllResults()">Hide All Results</button>
+    </div>
+    <table border="1" id="resultsTable">
+          <tr class="result-row">
+              <th>Search Object</th>
+              <th>Definition</th>
+              {% if 'image_source' in data[0] %}
+                  <th>Image</th>
+              {% endif %}
+          </tr>
+          {% for row in data %}
+              <tr class="result-row">
+                  <td>{{ row['search_object'] }}</td>
+                  <td>{{ row['definition'] }}</td>
+                  {% if 'image_source' in row %}
+                      <td><img src="{{ row['image_source'] }}" alt="{{ row['search_object'] }}" width="100"></td>
+                  {% endif %}
+              </tr>
+          {% endfor %}
+      </table>
+  {% else %}
+      <p>No results found.</p>
+  {% endif %}
+
+
+  <hr>
+
+  <h3>To go to <a href="advanced_search.html">advanced search</a></h3>
+
+
+
+<!-- For the navigation menu button -->
+  <script>
+      function toggleMenu() {
+          var menu = document.getElementById('navMenu');
+          if (menu.style.display === 'block') {
+              menu.style.display = 'none';
+          } else {
+              menu.style.display = 'block';
+          }
+      }
+
+      function showTab(tabId) {
+          // Hide all tab contents
+          document.querySelectorAll('.tab-content').forEach(content => {
+              content.classList.remove('active');
+          });
+
+          // Remove active class from all tab buttons
+          document.querySelectorAll('.tab-button').forEach(button => {
+              button.classList.remove('active');
+          });
+
+          // Show the selected tab content
+          document.getElementById(tabId).classList.add('active');
+
+          // Set the clicked tab button as active
+          document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
+      }
+
+    function showAllResults() {
+        document.querySelectorAll('#resultsTable .result-row').forEach(row => {
+            row.classList.remove('hidden');
+        });
+    }
+
+    function hideAllResults() {
+        document.querySelectorAll('#resultsTable .result-row').forEach(row => {
+            row.classList.add('hidden');
+        });
+    }
+
+      // Initialize first tab as active
+    var firstTabButton = document.querySelector('.tab-button');
+    if (firstTabButton) {
+        firstTabButton.click();
+    }
+  </script>
+
+</body>
+</html>

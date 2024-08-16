@@ -1,0 +1,32 @@
+<!-- Record their recent searches in both advanced and normal searches -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Recent Searches</title>
+    <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Recent Searches</h1>
+
+    <a href="/">Back to Home Page</a>
+
+    {% if data %}
+        <table border="1">
+            <tr>
+                <th>Search Query</th>
+                <th>Timestamp</th> <!-- Time that you searched it-->
+            </tr>
+            {% for row in data %}
+                <tr>
+                    <td>{{ row['search_query'] }}</td>
+                    <td>{{ row['timestamp'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No recent searches found.</p>
+    {% endif %}
+</body>
+</html>
+

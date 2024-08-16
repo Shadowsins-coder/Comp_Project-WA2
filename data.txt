@@ -1,0 +1,4 @@
+{"dataintegrity": "accuracy, consistency and reliability of data stored",
+  "referentialintegrityimportant": "1.ensures data is consistent and up-to-date 2.ensures every foreign key has a corresponding primary key 3.prevents records from being added/deleted/modified incorrectly 4.ensures any queries return accurate amd complete results",
+  "datavalidation": "presence check, format check, length check, existence check, type check",
+  "check": "",
